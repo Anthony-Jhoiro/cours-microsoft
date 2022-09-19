@@ -1,0 +1,13 @@
+# Compile settings
+bin
+obj
+
+# Tests
+TestResults
+
+# IDE settings
+.idea
+.vscode
+
+# Other
+*.DotSettings.user
