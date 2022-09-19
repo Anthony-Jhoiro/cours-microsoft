@@ -1,0 +1,31 @@
+name: publish to nuget
+on:
+  push:
+    branches:
+      - main # Default release branch, may also be named 'master' or 'develop'
+jobs:
+  publish:
+    name: build, pack & publish
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: 
+        runtime: [win-x64, linux-x64]
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: 6.0.x
+      
+      - name: Run tests
+        run: dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=./coverage/opencover.xml
+        
+      - name: Build ${{ matrx.runtime }}
+        run: dotnet publish ./src/Leonardo.Web/Leonardo.Web.csproj --self-contained true --output ./${{ matrx.runtime }}/fibonacci -c Release -r ${{ matrx.runtime }} /p:PublishSingleFile=true /p:PublishTrimmed=true /p:PublishReadyToRun=true
+        
+      - name: Upload ${{ matrx.runtime }} Build Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: Publish ${{ matrx.runtime }} Fibonacci
+          path: ./${{ matrx.runtime }}/fibonacci
