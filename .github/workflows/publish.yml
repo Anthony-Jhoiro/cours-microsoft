@@ -25,7 +25,7 @@ jobs:
         run: dotnet publish ./src/Leonardo.Web/Leonardo.Web.csproj --output ./${{ matrix.runtime }}/fibonacci -c Release -r ${{ matrix.runtime }} /p:PublishSingleFile=true /p:PublishTrimmed=true /p:PublishReadyToRun=true
         
       - name: Upload ${{ matrix.runtime }} Build Artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: Publish ${{ matrix.runtime }} Fibonacci
           path: ./${{ matrix.runtime }}/fibonacci
