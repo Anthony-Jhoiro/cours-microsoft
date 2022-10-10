@@ -10,8 +10,24 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Leonardo.Test", "tests\Leonardo.Test\Leonardo.Test.csproj", "{17F75718-2840-4A6E-BB7D-0BF62283F1B8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{C0C968EC-8900-44CB-9BDD-7F06ED592660}"
+	ProjectSection(SolutionItems) = preProject
+		src\WebApi\Properties\launchSettings.json = src\WebApi\Properties\launchSettings.json
+		src\WebApi\Program.cs = src\WebApi\Program.cs
+		src\WebApi\appsettings.json = src\WebApi\appsettings.json
+		src\WebApi\obj\WebApi.csproj.nuget.g.props = src\WebApi\obj\WebApi.csproj.nuget.g.props
+		src\WebApi\obj\project.nuget.cache = src\WebApi\obj\project.nuget.cache
+		src\WebApi\obj\project.assets.json = src\WebApi\obj\project.assets.json
+		src\WebApi\obj\WebApi.csproj.nuget.g.targets = src\WebApi\obj\WebApi.csproj.nuget.g.targets
+		src\WebApi\obj\WebApi.csproj.nuget.dgspec.json = src\WebApi\obj\WebApi.csproj.nuget.dgspec.json
+		src\WebApi\Controllers\WeatherForecastController.cs = src\WebApi\Controllers\WeatherForecastController.cs
+		src\WebApi\WeatherForecast.cs = src\WebApi\WeatherForecast.cs
+		src\WebApi\appsettings.Development.json = src\WebApi\appsettings.Development.json
+		src\WebApi\WebApi.csproj = src\WebApi\WebApi.csproj
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Leonardo.Web", "src\Leonardo.Web\Leonardo.Web.csproj", "{D1A4C0F5-DFA9-4599-BE19-DC169F6E5E86}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi", "src\WebApi\WebApi.csproj", "{66F8DE77-D096-40EC-A171-98F374CE0049}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,8 +54,13 @@ Global
 		{D1A4C0F5-DFA9-4599-BE19-DC169F6E5E86}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D1A4C0F5-DFA9-4599-BE19-DC169F6E5E86}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D1A4C0F5-DFA9-4599-BE19-DC169F6E5E86}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66F8DE77-D096-40EC-A171-98F374CE0049}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66F8DE77-D096-40EC-A171-98F374CE0049}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66F8DE77-D096-40EC-A171-98F374CE0049}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66F8DE77-D096-40EC-A171-98F374CE0049}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{D1A4C0F5-DFA9-4599-BE19-DC169F6E5E86} = {C0C968EC-8900-44CB-9BDD-7F06ED592660}
+		{66F8DE77-D096-40EC-A171-98F374CE0049} = {C0C968EC-8900-44CB-9BDD-7F06ED592660}
 	EndGlobalSection
 EndGlobal

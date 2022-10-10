@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace Leonardo;
 
@@ -7,10 +8,12 @@ record ResultTuple(long Input, long Output, bool FromCache);
 public class Fibonacci
 {
     private readonly FibonacciDataContext _fibonacciDataContext;
+    private readonly ILogger<Fibonacci> _logger;
 
-    public Fibonacci(FibonacciDataContext fibonacciDataContext)
+    public Fibonacci(FibonacciDataContext fibonacciDataContext, ILogger<Fibonacci> logger)
     {
         _fibonacciDataContext = fibonacciDataContext;
+        _logger = logger;
     }
 
 
@@ -22,9 +25,6 @@ public class Fibonacci
         {
             (buff, previousBuff) = (buff + previousBuff, buff);
         }
-
-        Console.WriteLine($"Fibonacci({index}) = {buff}");
-
         return buff;
     }
 
@@ -40,6 +40,8 @@ public class Fibonacci
             if (queryResult == default)
             {
                 var result = Task.Run(() =>new ResultTuple(int32, Run(int32), false));
+                _logger.LogInformation($"Fibonacci({result.Result.Input}) = {result.Result.Output}");
+
                 tasks.Add(result);
             }
             else
