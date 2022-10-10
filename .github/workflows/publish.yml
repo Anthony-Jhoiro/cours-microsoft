@@ -22,10 +22,10 @@ jobs:
         run: dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput=./coverage/opencover.xml
         
       - name: Build ${{ matrix.runtime }}
-        run: dotnet publish ./src/Leonardo.Web/Leonardo.Web.csproj --self-contained true --output ./${{ matrix.runtime }}/fibonacci -c Release -r ${{ matrx.runtime }} /p:PublishSingleFile=true /p:PublishTrimmed=true /p:PublishReadyToRun=true
+        run: dotnet publish ./src/Leonardo.Web/Leonardo.Web.csproj --self-contained true --output ./${{ matrix.runtime }}/fibonacci -c Release -r ${{ matrix.runtime }} /p:PublishSingleFile=true /p:PublishTrimmed=true /p:PublishReadyToRun=true
         
       - name: Upload ${{ matrix.runtime }} Build Artifact
         uses: actions/upload-artifact@v2
         with:
           name: Publish ${{ matrix.runtime }} Fibonacci
-          path: ./${{ matrx.runtime }}/fibonacci
+          path: ./${{ matrix.runtime }}/fibonacci
