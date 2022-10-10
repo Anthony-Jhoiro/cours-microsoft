@@ -1,7 +1,19 @@
-﻿namespace Leonardo;
+﻿using Microsoft.EntityFrameworkCore;
 
-public static class Fibonacci
+namespace Leonardo;
+
+record ResultTuple(long Input, long Output, bool FromCache);
+
+public class Fibonacci
 {
+    private readonly FibonacciDataContext _fibonacciDataContext;
+
+    public Fibonacci(FibonacciDataContext fibonacciDataContext)
+    {
+        _fibonacciDataContext = fibonacciDataContext;
+    }
+
+
     public static long Run(int index)
     {
         var previousBuff = 0L;
@@ -15,12 +27,46 @@ public static class Fibonacci
 
         return buff;
     }
-    
-    public static List<long> RunAsync(IEnumerable<string> args)
+
+    public async Task<List<long>> RunAsync(string[] args)
     {
-        var tasks = args.Select(arg => Task.Run(() => Run(Convert.ToInt32(arg)))).ToArray();
-        Task.WaitAll(tasks);
-            
-        return tasks.Select(t=>t.Result).ToList();
+        var tasks = new List<Task<ResultTuple>>();
+        foreach (var arg in args)
+        {
+            var int32 = Convert.ToInt32(arg);
+            var queryResult = await _fibonacciDataContext.TFibonaccis.Where(f => f.FibInput == int32)
+                .Select(f => f.FibOutput).FirstOrDefaultAsync();
+
+            if (queryResult == default)
+            {
+                var result = Task.Run(() =>new ResultTuple(int32, Run(int32), false));
+                tasks.Add(result);
+            }
+            else
+            {
+                tasks.Add(Task.FromResult(new ResultTuple(int32, queryResult, true)));
+            }
+        }
+
+        Task.WaitAll(tasks.ToArray());
+
+        var results = tasks.Select(t => t.Result).ToList();
+
+        foreach (var result in results)
+        {
+            if (!result.FromCache)
+            {
+                _fibonacciDataContext.TFibonaccis.Add(new TFibonacci()
+                {
+                    FibOutput = result.Output,
+                    FibCreatedTimestamp = DateTime.Now,
+                    FibInput = result.Input,
+                });
+            }
+        }
+
+        await _fibonacciDataContext.SaveChangesAsync();
+
+        return results.Select(r => r.Output).ToList();
     }
 }

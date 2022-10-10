@@ -1,3 +1,6 @@
+using System;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Xunit;
 
 namespace Leonardo.Test;
@@ -5,9 +8,16 @@ namespace Leonardo.Test;
 public class UnitTestFibonacci
 {
     [Fact]
-    public void RunAsync6ShouldReturn8()
+    public async Task RunAsync6ShouldReturn8()
     {
-        var result = Fibonacci.RunAsync(new[] { "6" });
+        var builder = new DbContextOptionsBuilder<FibonacciDataContext>();
+        var dataBaseName = Guid.NewGuid().ToString();
+        builder.UseInMemoryDatabase(dataBaseName);
+
+        var options = builder.Options;
+        var fibonacciDataContext = new FibonacciDataContext(options);
+        await fibonacciDataContext.Database.EnsureCreatedAsync(); 
+        var result = await new Fibonacci(fibonacciDataContext).RunAsync(new[] { "6" });
         Assert.Equal(8,  result[0]);
     }
 }
